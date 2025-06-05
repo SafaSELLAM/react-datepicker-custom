@@ -1,6 +1,5 @@
-
-
 import './App.css'
+import "./i18n.js"
 import { DatePicker } from './Components/DatePicker.jsx'
 
 function App() {

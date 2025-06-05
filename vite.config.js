@@ -9,4 +9,21 @@ export default defineConfig({
     tailwindcss(),
 
   ],
+  build: {
+    lib: {
+      entry: "src/index.js",
+      name: "Datepicker",
+      fileName: "index",
+      formats: ["es", "cjs"]
+    },
+    rollupOptions: {
+      external: ["react", "react-dom"],
+      output: {
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM"
+        }
+      }
+    }
+  }
 })
