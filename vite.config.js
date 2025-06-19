@@ -1,17 +1,26 @@
+// vite.config.js
 import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+import path from 'path'
 
-// https://vite.dev/config/
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
 export default defineConfig({
   plugins: [
     react(),
-    tailwindcss(),
-
+    tailwindcss({
+      content: [
+        './src/**/*.{js,jsx,ts,tsx}',
+      ],
+    }),
   ],
   build: {
     lib: {
-      entry: "src/index.js",
+      entry: path.resolve(__dirname, 'src/index.js'),
       name: "Datepicker",
       fileName: "index",
       formats: ["es", "cjs"]
@@ -24,6 +33,7 @@ export default defineConfig({
           "react-dom": "ReactDOM"
         }
       }
-    }
+    },
+    cssCodeSplit: false,
   }
 })

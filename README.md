@@ -1,11 +1,10 @@
 # React Datepicker Component
 
-A customizable and reusable datepicker component built with React.
+A reusable datepicker component built with React.
 
 ## Features
 
 -   Easy to integrate into any React project.
--   Customizable styling via CSS.
 -   Uses Font Awesome icons for navigation.
 -   Includes internationalization (i18n) support.
 
@@ -18,7 +17,8 @@ npm install @hirraeth_98/react-datepicker-custom
 
 ```jsx
 
-import Datepicker from "@hirraeth_98/react-datepicker-custom";
+import { DatePicker } from 'react-datepicker-custom-hirraeth_98'
+import 'react-datepicker-custom-hirraeth_98/dist/index.css'
 
 function App() {
     return (
