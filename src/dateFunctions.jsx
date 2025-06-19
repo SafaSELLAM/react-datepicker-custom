@@ -20,19 +20,38 @@ export const getFirstDayOfMonth = (year, month) =>
     new Date(year, month, 1).getDay()
 
 // Compares two dates and returns true if they fall on the exact same day
-export const isSameDay = (date1, date2) =>
-    date1.getDate() === date2.getDate() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getFullYear() === date2.getFullYear()
+export const isSameDay = (date1, date2) => {
 
+
+    try {
+        return date1.getDate() === date2.getDate() &&
+            date1.getMonth() === date2.getMonth() &&
+            date1.getFullYear() === date2.getFullYear()
+
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+
+}
 // Checks if a date is within the given min and max range
 export const isDateInRange = (date, minDate, maxDate) => {
     return (!minDate || date >= minDate) && (!maxDate || date <= maxDate)
 }
 
 // Parses a string (in DD/MM/YYYY or MM/DD/YYYY format) into a Date object, based on language
-export const parseDateFromString = (selectedate, lang = "fr") => {
+export const parseDateFromString = (selectedate, lang) => {
+    if (!selectedate || typeof selectedate !== "string") {
+        return null
+    }
+    if (!lang || (lang !== 'fr' && lang !== 'en')) {
+        console.warn('Invalid language, defaulting to "fr"')
+        lang = 'en'
+    }
     const parts = selectedate.split("/")
+    if (parts.length !== 3) {
+        return null
+    }
     let day, month, year
 
     if (lang === "fr" && parts.length === 3) {
@@ -41,11 +60,40 @@ export const parseDateFromString = (selectedate, lang = "fr") => {
         [month, day, year] = parts
     }
 
-    if (day && month && year) {
-        const dateObj = new Date(year, Number(month) - 1, Number(day))
-        if (!isNaN(dateObj)) {
+    // Convert parts to numbers
+    const dayNum = Number(day)
+    const monthNum = Number(month)
+    const yearNum = Number(year)
+
+    if (isNaN(dayNum) || isNaN(monthNum) || isNaN(yearNum)) {
+        return null
+    }
+
+    if (dayNum < 1 || dayNum > 31) {
+        return null
+    }
+    if (monthNum < 1 || monthNum > 12) {
+        return null
+    }
+
+    if (yearNum < 1000 || yearNum > 9999) {
+        return null
+    }
+    try {
+        const dateObj = new Date(yearNum, monthNum - 1, dayNum)
+
+        // Validate the date to ensure it matches the input
+        if (dateObj.getDate() !== dayNum ||
+            dateObj.getMonth() !== monthNum - 1 ||
+            dateObj.getFullYear() !== yearNum) {
+            return null
+        }
+
+        if (!isNaN(dateObj.getTime())) {
             return dateObj
         }
+    } catch (error) {
+        console.error('parseDateFromString: Error creating date:', error)
     }
 
     return null

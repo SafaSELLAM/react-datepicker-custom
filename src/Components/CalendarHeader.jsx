@@ -17,7 +17,9 @@ export const CalendarHeader = ({
         <div className="flex justify-between items-center mb-2">
 
             <div className="flex items-center gap-2">
-                <button onClick={goToPreviousMonth} className="text-gray-500 hover:text-blue-600 cursor-pointer">
+                <button type="button"
+                    onClick={goToPreviousMonth}
+                    className="text-gray-500 hover:text-blue-600 cursor-pointer no-bg">
                     <FontAwesomeIcon icon={faChevronLeft} />
                 </button>
 
@@ -25,14 +27,18 @@ export const CalendarHeader = ({
                 <YearSelector currentYear={currentYear} onChange={onYearChange} />
                 <div className="text-right  items-center ">
                     <button
+                        type="button"
                         onClick={() => setCurrentDate(new Date())}
-                        className="text-blue-600 text-sm  cursor-pointer"
+                        className="text-blue-600 text-sm  cursor-pointer no-bg"
                         title={t("today")}
                     >
                         <FontAwesomeIcon icon={faHome} />
                     </button>
                 </div>
-                <button onClick={goToNextMonth} className="text-gray-500 hover:text-blue-600 cursor-pointer">
+                <button
+                    type="button"
+                    onClick={goToNextMonth}
+                    className="text-gray-500 hover:text-blue-600 cursor-pointer no-bg">
                     <FontAwesomeIcon icon={faChevronRight} />
                 </button>
 

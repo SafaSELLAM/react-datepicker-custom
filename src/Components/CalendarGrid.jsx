@@ -2,27 +2,59 @@ import { isDateInRange, isSameDay } from "../dateFunctions"
 import { DayGridCells } from "./Atoms/DayGridCells.jsx"
 import { parseDateFromString } from "../dateFunctions"
 export const CalendarGrid = ({ daysArray, handleDateClick, currentDate, selectedDate, minDate, maxDate, lang }) => {
+    const validLang = (lang === 'fr' || lang === 'en') ? lang : 'fr'
+
     const today = new Date()
-    const selected = selectedDate ? parseDateFromString(selectedDate, lang) : null
 
+    let selected = null
+    if (selectedDate) {
+        try {
+            selected = parseDateFromString(selectedDate, validLang)
 
+        } catch (error) {
+            console.warn('CalendarGrid: Error parsing selectedDate:', error)
+        }
+    }
 
     return (
         <div className="grid grid-cols-7 gap-1 text-center mt-2">
 
             {daysArray.map((day, index) => {
-                const dateToCompare = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
-                const isDisabled = (!isDateInRange(dateToCompare, minDate, maxDate) || !day)
+                let dateToCompare = null
+                let isDisabled = true
+                let isSelected = false
+                let isToday = false
 
-                // Check if the date is disabled based on minDate and maxDate
-                const isSelected =
-                    selectedDate &&
-                    isSameDay(dateToCompare, selected)
+                try {
+                    // create a date object for the current day
+                    dateToCompare = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
+
+                    // check if the date is valid
+                    if (isNaN(dateToCompare.getTime())) {
+                        console.warn(`CalendarGrid: Invalid date created for day ${day}`)
+                        isDisabled = true
+                    } else {
+                        //check if the date is in range
+                        isDisabled = !isDateInRange(dateToCompare, minDate, maxDate)
+
+                        //check if the date is selected
+                        if (selected && !isDisabled) {
+                            isSelected = isSameDay(dateToCompare, selected)
+                        }
+
+                        //check if the date is today
+                        if (!isDisabled && !isSelected) {
+                            isToday = isSameDay(dateToCompare, today)
+                        }
+                    }
+                } catch (error) {
+                    console.error(`CalendarGrid: Error processing day ${day}:`, error)
+                    isDisabled = true
+                }
+                // console.log(today)
 
 
-                const isToday =
-                    !selectedDate &&
-                    isSameDay(dateToCompare, today)
+
 
                 return (
                     <DayGridCells
