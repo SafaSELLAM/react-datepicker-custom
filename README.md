@@ -11,7 +11,7 @@ A reusable datepicker component built with React.
 ## Installation
 
 ```bash
-npm install @hirraeth_98/react-datepicker-custom
+npm install react-datepicker-custom-hirraeth_98
 
 ## Usage
 
