@@ -36,6 +36,7 @@ export const DatePicker = ({ lang, minDate, maxDate }) => {
         }
     }, [selectedDate, lang])
 
+
     // Function to handle date selection
     const handleDateClick = (day) => {
         const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
@@ -80,7 +81,7 @@ export const DatePicker = ({ lang, minDate, maxDate }) => {
     const months = t("months", { returnObjects: true })
     const weekdays = t("weekdays", { returnObjects: true })
     return (
-        <div className="relative flex justify-center mt-30 min-h-screen">
+        <div className="relative flex ">
             <div>
                 <input
                     type="text"
