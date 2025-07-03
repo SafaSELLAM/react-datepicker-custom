@@ -6,7 +6,7 @@ import { CalendarGrid } from "./CalendarGrid.jsx"
 import { CalendarHeader } from "./CalendarHeader.jsx"
 import { Weekdays } from "./Atoms/Weekdays.jsx"
 
-export const DatePicker = ({ lang, minDate, maxDate }) => {
+export const DatePicker = ({ lang, minDate, maxDate, value, onChange, required = "true", ...props }) => {
     const { i18n, t } = useTranslation()
 
     const [selectedDate, setSelectedDate] = useState("")
@@ -17,6 +17,13 @@ export const DatePicker = ({ lang, minDate, maxDate }) => {
     useEffect(() => {
         i18n.changeLanguage(lang)
     }, [lang, i18n])
+
+    useEffect(() => {
+        if (value !== undefined) {
+            setSelectedDate(value)
+        }
+    }, [value])
+
 
     const toggleCalendar = () => {
         setIsOpen(!isOpen)
@@ -36,11 +43,27 @@ export const DatePicker = ({ lang, minDate, maxDate }) => {
         }
     }, [selectedDate, lang])
 
-
+    // Function to notify the parent component of date changes
+    const notifyChange = (newValue) => {
+        setSelectedDate(newValue)
+        if (onChange) {
+            // Create a synthetic event to mimic the onChange event
+            const syntheticEvent = {
+                target: {
+                    value: newValue
+                },
+                currentTarget: {
+                    value: newValue
+                }
+            }
+            onChange(syntheticEvent)
+        }
+    }
     // Function to handle date selection
     const handleDateClick = (day) => {
         const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
-        setSelectedDate(formatDate(newDate, lang))
+        const formattedDate = formatDate(newDate, lang)
+        notifyChange(formattedDate)
         setIsOpen(false)
     }
 
@@ -81,22 +104,24 @@ export const DatePicker = ({ lang, minDate, maxDate }) => {
     const months = t("months", { returnObjects: true })
     const weekdays = t("weekdays", { returnObjects: true })
     return (
-        <div className="relative flex ">
-            <div>
+        <div className="relative flex date-picker-container">
+            <div className="date-picker-div-input">
                 <input
+                    {...props}
                     type="text"
                     value={selectedDate}
                     onClick={toggleCalendar}
                     onChange={(e) => {
                         const formatted = formatInputDate(e.target.value, lang)
-                        setSelectedDate(formatted)
+                        notifyChange(formatted)
                     }}
                     className="border rounded-lg bg-white p-2 w-63 cursor-pointer"
                     placeholder={t("placeholder")}
+                    required={required}
                 />
 
                 {isOpen && (
-                    <div className="absolute mt-2 w-64 bg-white border shadow-lg py-4 px-2 rounded-lg z-20">
+                    <div className="date-picker-calendar absolute mt-2 w-64 bg-white border shadow-lg py-4 px-2 rounded-lg z-20">
                         <CalendarHeader
                             currentMonth={currentDate.getMonth()}
                             currentYear={currentDate.getFullYear()}

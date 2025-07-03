@@ -2,7 +2,7 @@ import { isDateInRange, isSameDay } from "../dateFunctions"
 import { DayGridCells } from "./Atoms/DayGridCells.jsx"
 import { parseDateFromString } from "../dateFunctions"
 export const CalendarGrid = ({ daysArray, handleDateClick, currentDate, selectedDate, minDate, maxDate, lang }) => {
-    const validLang = (lang === 'fr' || lang === 'en') ? lang : 'fr'
+    const validLang = (lang === 'fr' || lang === 'en') ? lang : 'en'
 
     const today = new Date()
 
@@ -51,11 +51,6 @@ export const CalendarGrid = ({ daysArray, handleDateClick, currentDate, selected
                     console.error(`CalendarGrid: Error processing day ${day}:`, error)
                     isDisabled = true
                 }
-                // console.log(today)
-
-
-
-
                 return (
                     <DayGridCells
                         key={index}
