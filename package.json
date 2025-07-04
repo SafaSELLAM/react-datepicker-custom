@@ -1,11 +1,20 @@
 {
   "name": "react-datepicker-custom-hirraeth_98",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": false,
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "style": "dist/index.css",
+  "keywords": [
+    "react",
+    "datepicker",
+    "custom",
+    "hirraeth"
+  ],
+  "description": "A custom datepicker component for React.",
+  "author": {
+    "name": "Hirraeth"},
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -45,5 +54,8 @@
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.4",
     "tailwindcss": "^4.1.8"
+  },
+  "engines": {
+    "node": ">=18.16.0"
   }
 }

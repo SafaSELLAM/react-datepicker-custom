@@ -10,6 +10,8 @@ A reusable datepicker component built with React.
 
 ## Installation
 
+- NodeJS >=18.16.0
+
 ```bash
 npm install react-datepicker-custom-hirraeth_98
 
